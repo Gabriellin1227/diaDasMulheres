@@ -3,40 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Short+Stack&amp;family=Homemade+Apple&amp;display=swap'>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Zeyada&display=swap'>
   <title>Para minha namorada ❤️</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Zeyada&display=swap');
-
     body {
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background-size: 1000px;
       background-image: url("https://www.psdgraphics.com/wp-content/uploads/2022/01/white-math-paper-texture.jpg");
-      background-position: center center;
-      overflow: hidden; 
+      background-size: 1000px;
+      background-position: center;
+      overflow: hidden;
       margin: 0;
     }
 
     .paper {
       background-image: url("https://i0.wp.com/textures.world/wp-content/uploads/2018/10/2-Millimeter-Paper-Background-copy.jpg?ssl=1");
       background-size: 500px;
-      background-position: center center;
       padding: 20px;
       position: absolute;
-      box-shadow: 1px 15px 20px 0px rgba(0,0,0,0.5);
+      box-shadow: 1px 15px 20px rgba(0,0,0,0.5);
       cursor: grab;
       touch-action: none;
       user-select: none;
       -webkit-user-drag: none;
       width: 250px;
       text-align: center;
-      /* Centraliza os papéis no início */
+      /* Amontoados no centro */
       top: 50%;
       left: 50%;
-      margin-top: -150px; 
+      margin-top: -150px;
       margin-left: -125px;
     }
 
@@ -47,16 +44,10 @@
       border-radius: 50%;
     }
 
-    .paperImage {
-      padding: 15px;
-    }
-
     img {
-      max-height: 200px;
-      width: 100%;
-      object-fit: cover;
-      pointer-events: none;
+      max-width: 100%;
       border-radius: 2px;
+      pointer-events: none;
     }
 
     .paperHeart::after {
@@ -68,32 +59,26 @@
       top: 0;
       left: 0;
       background-size: 150px;
-      background-position: center center;
+      background-position: center;
       background-repeat: no-repeat;
       opacity: 0.6;
     }
 
     p {
-      font-family: 'Zeyada';
-      font-size: 32px;
+      font-family: 'Zeyada', cursive;
+      font-size: 30px;
       color: rgb(0,0,100);
-      opacity: 0.85;
       margin: 5px 0;
       pointer-events: none;
-      line-height: 1;
-    }
-
-    .paperImage p {
-      font-size: 22px;
     }
   </style>
 </head>
 <body>
 
-  <audio id="musica" loop>
+  <audio id="musica" loop preload="auto">
     <source src="https://www.dropbox.com/scl/fi/av2jjhj6e7lszpk3uimli/I-Thought-I-Saw-Your-Face-Today_spotdown.org.mp3?rlkey=2vqpdzt7i3ju2mt4xlmj1lnsb&st=4r6g7zsi&dl=1" type="audio/mpeg">
   </audio>
-  
+
   <div class="paper paperHeart"></div>
   
   <div class="paper">
@@ -101,116 +86,96 @@
     <p>feliz dia das mulheres ❤️😘</p>
   </div>
 
-  <div class="paper paperImage">
+  <div class="paper">
     <p>Então fiz para a pessoa que adoro,</p>
-    <p>que me inspira, sempre me ajuda,</p>
-    <p>e que o mais importante:</p>
-    <p>sou apaixonado 😘💕</p>
+    <p>que me inspira e me ajuda 💕</p>
     <img src="https://i.ibb.co/kgvbzdHX/euedebs.png" />
   </div>
 
-  <div class="paper paperImage">
+  <div class="paper">
     <p>Amo cada momento com você</p>
     <img src="https://i.ibb.co/605J7rYR/img2.png" />
   </div>
 
-  <div class="paper paperImage">
+  <div class="paper">
     <p>Quero passar um</p>
     <p>Tempaaaaaaaaao com voce!!!</p>
     <img src="https://i.ibb.co/d00w0wQd/img3.png" />
   </div>
 
   <div class="paper">
-    <p>Minha Pessoa</p>
-    <p>Favorita 😍</p>
-  </div>
-
-  <div class="paper">
-    <p>Você é incrível, </p>
-    <p>Maravilhosa <span style="color: red !important;">❤️</span></p>
-  </div>
-
-  <div class="paper">
-    <p>Mova todos os papéis!</p>
-    <p>TODOS MESMO VIU!! 🎵</p>
+    <p>Você é incrível ❤️</p>
+    <p>Mova os papéis para ler!</p>
   </div>
 
   <script>
     let highestZ = 1;
-    const audioMusica = document.getElementById('musica');
-    let musicaIniciada = false;
+    const musica = document.getElementById('musica');
+    let iniciouMusica = false;
+
+    // Função para tocar a música na primeira interação com a tela inteira
+    const iniciarAudio = () => {
+      if (!iniciouMusica) {
+        musica.play().catch(e => console.log("Aguardando interação real..."));
+        iniciouMusica = true;
+      }
+    };
+
+    // Escuta cliques e toques em QUALQUER lugar da página
+    document.addEventListener('mousedown', iniciarAudio);
+    document.addEventListener('touchstart', iniciarAudio);
 
     class Paper {
       holdingPaper = false;
-      prevMouseX = 0;
-      prevMouseY = 0;
-      
-      // Começam todos em 0 para respeitar o amontoado do CSS
-      currentPaperX = 0;
-      currentPaperY = 0;
+      prevX = 0; prevY = 0;
+      currentX = 0; currentY = 0;
       rotation = Math.random() * 30 - 15;
 
       init(paper) {
-        // Aplica a rotação inicial (mesmo amontoados, eles ficam levemente tortos)
+        // Rotação inicial amontoada
         paper.style.transform = `translate(0px, 0px) rotateZ(${this.rotation}deg)`;
 
-        const startDragging = (x, y) => {
-          if (!musicaIniciada) {
-            audioMusica.play().catch(e => console.log("Audio play bloqueado"));
-            musicaIniciada = true;
-          }
+        const start = (x, y) => {
           this.holdingPaper = true;
-          paper.style.zIndex = highestZ;
-          highestZ += 1;
-          this.prevMouseX = x;
-          this.prevMouseY = y;
+          paper.style.zIndex = highestZ++;
+          this.prevX = x; 
+          this.prevY = y;
         };
 
-        const moveHandler = (x, y) => {
+        const move = (x, y) => {
           if (!this.holdingPaper) return;
           
-          let deltaX = x - this.prevMouseX;
-          let deltaY = y - this.prevMouseY;
+          let dx = x - this.prevX;
+          let dy = y - this.prevY;
 
-          this.currentPaperX += deltaX;
-          this.currentPaperY += deltaY;
-          
-          this.prevMouseX = x;
-          this.prevMouseY = y;
+          this.currentX += dx;
+          this.currentY += dy;
+          this.prevX = x;
+          this.prevY = y;
 
-          paper.style.transform = `translate(${this.currentPaperX}px, ${this.currentPaperY}px) rotateZ(${this.rotation}deg)`;
+          paper.style.transform = `translate(${this.currentX}px, ${this.currentY}px) rotateZ(${this.rotation}deg)`;
         };
 
-        // Mouse
-        paper.addEventListener('mousedown', (e) => {
-          if(e.button !== 0) return;
-          startDragging(e.clientX, e.clientY);
-        });
+        // Mouse Events
+        paper.addEventListener('mousedown', e => start(e.clientX, e.clientY));
+        window.addEventListener('mousemove', e => move(e.clientX, e.clientY));
 
-        window.addEventListener('mousemove', (e) => {
-          moveHandler(e.clientX, e.clientY);
-        });
+        // Touch Events
+        paper.addEventListener('touchstart', e => {
+          start(e.touches[0].clientX, e.touches[0].clientY);
+        }, {passive: false});
 
-        // Touch
-        paper.addEventListener('touchstart', (e) => {
-          const touch = e.touches[0];
-          startDragging(touch.clientX, touch.clientY);
-        }, { passive: false });
-
-        window.addEventListener('touchmove', (e) => {
-          const touch = e.touches[0];
-          moveHandler(touch.clientX, touch.clientY);
+        window.addEventListener('touchmove', e => {
+          move(e.touches[0].clientX, e.touches[0].clientY);
           if(this.holdingPaper) e.preventDefault();
-        }, { passive: false });
+        }, {passive: false});
 
         window.addEventListener('mouseup', () => this.holdingPaper = false);
         window.addEventListener('touchend', () => this.holdingPaper = false);
       }
     }
 
-    document.querySelectorAll('.paper').forEach(paper => {
-      new Paper().init(paper);
-    });
+    document.querySelectorAll('.paper').forEach(p => new Paper().init(p));
   </script>
 </body>
 </html>
